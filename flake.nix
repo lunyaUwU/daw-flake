@@ -8,17 +8,20 @@
     flake-utils.lib.eachDefaultSystem
       (system:
         let
-          
-          pkgs = nixpkgs.legacyPackages.${system};
-          inherit (pkgs) lib stdenv;
-          # 👇 new! note that it refers to the path ./rust-toolchain.toml
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+         # 👇 new! note that it refers to the path ./rust-toolchain.toml
         in
         with pkgs;
         {
+          packages.default = pkgs.callPackage ./mixbus.nix {};
+          packages.ardour = pkgs.callPackage ./ardour.nix {};
           devShells.default = mkShell {
             # 👇 we can just use `rustToolchain` here:
 
-            NIX_LD_LIBRARY_PATH = lib.makeLibraryPath  [
+          NIX_LD_LIBRARY_PATH = lib.makeLibraryPath  [
             pkgs.gcc-unwrapped # Provides libstdc++ v6
             pkgs.xorg.libX11
             pkgs.xorg.libXext
@@ -36,4 +39,5 @@
         }
       );
 }
+
 
