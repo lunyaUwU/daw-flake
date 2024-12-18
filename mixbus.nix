@@ -180,6 +180,22 @@ stdenv.mkDerivation rec {
   #       --suffix LD_LIBRARY_PATH : "${lib.strings.makeLibraryPath buildInputs}"
   #   done
   # '';
+  meta = with lib; {
+    description = "Multi-track hard disk recording software";
+    longDescription = ''
+      Ardour is a digital audio workstation (DAW), You can use it to
+      record, edit and mix multi-track audio and midi. Produce your
+      own CDs. Mix video soundtracks. Experiment with new ideas about
+      music and sound.
 
+      Please consider supporting the ardour project financially:
+      https://community.ardour.org/donate
+    '';
+    homepage = "https://ardour.org/";
+    license = licenses.unfree;
+    mainProgram = "mixbus";
+    platforms = platforms.linux;
+    maintainers = with maintainers; [ lunyaTheGay];
+  };
   }
 
