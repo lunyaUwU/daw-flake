@@ -32,7 +32,7 @@
 , libltc
 , libogg
 , libpulseaudio
-, librdf_raptor
+#, librdf_raptor
 , librdf_rasqal
 , libsamplerate
 , libsigcxx
@@ -103,7 +103,7 @@ stdenv.mkDerivation rec {
     libltc
     libogg
     libpulseaudio
-    librdf_raptor
+    #librdf_raptor
     librdf_rasqal
     libsamplerate
     libsigcxx
@@ -162,24 +162,6 @@ stdenv.mkDerivation rec {
     addAutoPatchelfSearchPath $out/lib/
     runHook postInstall
   '';
-    #preFixup = let
-    # we prepare our library path in the let clause to avoid it become part of the input of mkDerivation
-
-  # postFixup = ''
-  #   # patchelf fails to set rpath on BitwigStudioEngine, so we use
-  #   # the LD_LIBRARY_PATH way
-  #
-  #   find $out -type f -executable \
-  #     -exec sh -c "[[ \"\$(head -c 4 -- \"\$\{1\}\")\" == \$'\\x7FELF' ]]" -- \{\} \;
-  #   while IFS= read -r f ; do
-  #     patchelf --set-interpreter "${stdenv.cc.bintools.dynamicLinker}" $f
-  #     # make xdg-open overrideable at runtime
-  #     wrapProgram $f \
-  #       --prefix PATH : "${lib.makeBinPath [ ffmpeg ]}" \
-  #       --suffix PATH : "${lib.makeBinPath [ xdg-utils ]}" \
-  #       --suffix LD_LIBRARY_PATH : "${lib.strings.makeLibraryPath buildInputs}"
-  #   done
-  # '';
   meta = with lib; {
     description = "Multi-track hard disk recording software";
     longDescription = ''
